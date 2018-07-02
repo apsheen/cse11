@@ -2,7 +2,7 @@ import Acme.*;
 import objectdraw.*;
 import java.awt.Color;
 
-public class DraggingMickey extends WindowController
+public class EC_DraggingMickey extends WindowController
 {
     //position of instructions
     private static final int INSTR1_X = 50;
@@ -50,11 +50,21 @@ public class DraggingMickey extends WindowController
     //origin of face
     private Location face;
 
+    //command line argument - threshold of pixels for toggle
+    private static int threshold = 0;
+
+    //how many times has the mouse been dragged?
+    private static int dragged = 0;
+
+    //which set of colors? - RGB is true; CYM is false
+    private boolean sets;
+
     //start by showing instructions
     public void begin() 
     {
         instruction1 = new Text(INSTR1_TEXT, INSTR1_X, INSTR1_Y, canvas);
         instruction2 = new Text(INSTR2_TEXT, INSTR2_X, INSTR2_Y, canvas);
+        sets = true;
     }
 
     //if Mickey has been drawn, check to see if in the sillohette, make sure text is "gone"
@@ -94,16 +104,40 @@ public class DraggingMickey extends WindowController
     }
 
     //dragging, turn RGB as doing so
+    //EC - TODO - toggle while dragging using command argument's threshold
     public void onMouseDrag(Location point)
     {
         if(grabbed) 
         {
             leftEar.move(point.getX() - lastPos.getX(), point.getY() - lastPos.getY());
-            leftEar.setColor(Color.RED);
             rightEar.move(point.getX() - lastPos.getX(), point.getY() - lastPos.getY());
-            rightEar.setColor(Color.GREEN);
             head.move(point.getX() - lastPos.getX(), point.getY() - lastPos.getY());
-            head.setColor(Color.BLUE);
+
+            if(dragged - threshold == 0)
+            {
+                if(sets == true)
+                {
+                    leftEar.setColor(Color.RED);
+                    rightEar.setColor(Color.GREEN);
+                    head.setColor(Color.BLUE);
+                    sets = false;
+                }
+
+                else if(sets == false)
+                {
+                    leftEar.setColor(Color.CYAN);
+                    rightEar.setColor(Color.MAGENTA);
+                    head.setColor(Color.YELLOW);
+                    sets = true;
+                }
+
+                dragged = 0;
+            }
+
+            else
+            {
+                dragged = dragged + 1;
+            }
         }
 
         lastPos = point;
@@ -115,6 +149,8 @@ public class DraggingMickey extends WindowController
         leftEar.setColor(Color.BLACK);
         rightEar.setColor(Color.BLACK);
         head.setColor(Color.BLACK);
+        dragged = 0;
+        sets = true;
     }
 
     //remove entire figure/reset
@@ -149,8 +185,35 @@ public class DraggingMickey extends WindowController
     }
 
     //Acme canvas
+    //parse pixel threshold from command line
     public static void main(String[] args) 
     {
-        new Acme.MainFrame(new DraggingMickey(), args, FRAME_WIDTH, FRAME_HEIGHT);
+        try 
+        {
+            threshold = Integer.parseInt(args[0]);
+
+            if(threshold <= 0)
+            {
+                System.out.println("Pixel threshold must be greater than 0");
+                System.exit(1);
+            }
+
+            dragged = threshold;
+        }
+        
+        catch(NumberFormatException nfe) 
+        {
+            // The first argument isn't a valid integer.  Print an error message, then exit with an error code.
+            System.out.println("Bad pixel threshold command line argument");
+            System.exit(1);
+        }
+
+        catch(ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException)
+        {
+            threshold = 10;
+            dragged = threshold;
+        }
+
+        new Acme.MainFrame(new EC_DraggingMickey(), args, FRAME_WIDTH, FRAME_HEIGHT);
     }
 }
