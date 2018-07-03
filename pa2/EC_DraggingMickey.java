@@ -149,7 +149,7 @@ public class EC_DraggingMickey extends WindowController
         leftEar.setColor(Color.BLACK);
         rightEar.setColor(Color.BLACK);
         head.setColor(Color.BLACK);
-        dragged = 0;
+        dragged = threshold;
         sets = true;
     }
 
