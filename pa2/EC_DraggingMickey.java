@@ -104,7 +104,6 @@ public class EC_DraggingMickey extends WindowController
     }
 
     //dragging, turn RGB as doing so
-    //EC - TODO - toggle while dragging using command argument's threshold
     public void onMouseDrag(Location point)
     {
         if(grabbed) 
