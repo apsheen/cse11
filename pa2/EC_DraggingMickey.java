@@ -67,8 +67,8 @@ public class EC_DraggingMickey extends WindowController
         sets = true;
     }
 
-    //if Mickey has been drawn, check to see if in the sillohette, make sure text is "gone"
-    public void onMousePress(Location point)
+    //make sure text is "gone", draw Mickey if not already there
+    public void onMousClick(Location point)
     {
         instruction1.setText(" ");
         instruction2.setText(" ");
@@ -86,8 +86,12 @@ public class EC_DraggingMickey extends WindowController
             mickeyReset = false;
             mickeyCreated = true;
         }
+    }
 
-        else
+    //if Mickey has been drawn, check to see if in the sillohette, make sure text is "gone"
+    public void onMousePress(Location point)
+    {
+        if(mickeyCreated = true)
         {
             if((head.contains(point) == true) || (rightEar.contains(point) == true) || (leftEar.contains(point) == true))
             {
