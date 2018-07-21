@@ -26,8 +26,6 @@ public class Mickey
 
     //which ear?
     private boolean whichear;
-    
-    //TODO - additional variables you might need and - skeletons
 
     //constructor
     public Mickey(Location point, DrawingCanvas canvas) 

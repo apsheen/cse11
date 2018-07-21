@@ -51,8 +51,6 @@ public class FlippingMickey extends WindowController
     private boolean mickeyReset = true;
     private boolean mickeyCreated = false;
 
-    //TODO - additional variables you might need and - skeletons
-
     //show instructions
     public void begin()
     {
