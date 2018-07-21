@@ -132,8 +132,6 @@ public class FlippingMickey extends WindowController
     //remove everything from the canvas
     public void onMouseExit(Location point)
     {
-        mickeyCreated = true;
-
         if(reset == false)
         {
             instruction1.setText(" ");
