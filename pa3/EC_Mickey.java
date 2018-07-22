@@ -157,8 +157,8 @@ public class EC_Mickey
     //returns to center of canvas
     public void centerFace(double x, double y) 
     {
-        leftEar.move((x / 2) - (FACE_RADIUS / 2) - head.getX(), (y / 2) - (FACE_RADIUS / 2) - head.getY());
-        rightEar.move((x / 2) - (FACE_RADIUS / 2) - head.getX(), (y / 2) - (FACE_RADIUS / 2) - head.getY());
-        head.move((x / 2) - (FACE_RADIUS / 2) - head.getX(), (y / 2) - (FACE_RADIUS / 2) - head.getY());
+        leftEar.moveTo((x / 2) - (FACE_RADIUS / 2) - (EAR_RADIUS / 2), (y / 2) - (FACE_RADIUS / 2) - (EAR_RADIUS / 2));
+        rightEar.moveTo((x / 2) + ((EAR_OFFSET / 2) - (EAR_RADIUS / 2)), (y / 2) - (FACE_RADIUS / 2) - (EAR_RADIUS / 2));
+        head.moveTo((x / 2) - (FACE_RADIUS / 2), (y / 2) - (FACE_RADIUS / 2));
     }
 }
