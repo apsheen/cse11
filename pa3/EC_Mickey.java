@@ -21,8 +21,6 @@ public class EC_Mickey
     //current position:
     //0 - upright; 1 - 90 clockwise; 2 - 180 clockwise; 3 - 270 clockwise
     private static int angle;
-    
-    //TODO - additional variables you might need and - skeletons
 
     //constructor
     public EC_Mickey(Location point, DrawingCanvas canvas) 
