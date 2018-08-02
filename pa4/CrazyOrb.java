@@ -21,6 +21,7 @@ public class CrazyOrb extends ActiveObject
     private int filledchange = 0;
     private int framedchange = 0;
     
+    //constructor
     public CrazyOrb(double xLoc, double yLoc, double size, DrawingCanvas canvas, Line hLine, Line vLine)
     {
         filled = new FilledOval(xLoc, yLoc, size, size, canvas);
@@ -54,9 +55,9 @@ public class CrazyOrb extends ActiveObject
             framed.setColor(Color.GRAY);
         }
 
+        //initialize thread's variables
         filledchange = 1;
         framedchange = -1;
-
         objSize = size;
         hline = hLine;
         vline = vLine;
@@ -64,22 +65,26 @@ public class CrazyOrb extends ActiveObject
         start();
     }
 
+    //thread
     public void run() 
     {
+        //run forever
         while(true)
         {
+            //keep object centered
             filled.move(-1 * filledchange, -1 * filledchange);
             filled.setSize(filled.getWidth() + (2 * filledchange), filled.getHeight() + (2 * filledchange));
-
             framed.move(-1 * framedchange, -1 * framedchange);
             framed.setSize(framed.getWidth() + (2 * framedchange), framed.getHeight() + (2 * framedchange));
 
+            //when to shrink
             if(framed.getWidth() >= (1.5 * objSize))
             {
                 framedchange = -1;
                 filledchange = 1;
             }
 
+            //when to grow
             if(framed.getWidth() <= (0.5 * objSize))
             {
                 framedchange = 1;
@@ -114,7 +119,7 @@ public class CrazyOrb extends ActiveObject
                 framed.setColor(Color.GRAY);
             }
             
-            pause(DELAY_TIME);
+            pause(DELAY_TIME); //don't grow or shrink too fast, delay thread
         }
     }
 }

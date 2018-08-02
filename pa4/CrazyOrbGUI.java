@@ -15,7 +15,7 @@ public class CrazyOrbGUI extends WindowController
     private Location hStart, hEnd, vStart, vEnd;
 
     //were any lines grabbed? which ones?
-    private boolean hGrabbed, vGrabbed;
+    private boolean hGrabbed, vGrabbed = false;
 
     //last point
     private Location lastPos;
@@ -29,27 +29,31 @@ public class CrazyOrbGUI extends WindowController
     {
         hLine = new Line(0, (canvas.getHeight() / 2), canvas.getWidth(), (canvas.getHeight() / 2), canvas);
         vLine = new Line((canvas.getWidth() / 2), 0, (canvas.getWidth() / 2), canvas.getHeight(), canvas);
-        
-        hGrabbed = false;
-        vGrabbed = false;
     }
 
     //were the lines grabbed? which ones?
     public void onMousePress(Location point)
     {
-        if(hLine.contains(point))
+        if((hLine.contains(point)) == true || (vLine.contains(point)) == true)
         {
-            hGrabbed = true;
+            if(hLine.contains(point))
+            {
+                hGrabbed = true;
+            }
+
+            if(vLine.contains(point))
+            {
+                vGrabbed = true;
+            }
         }
 
-        if(vLine.contains(point))
+        //if neither were grabbd, create new orb
+        else
         {
-            vGrabbed = true;
+            new CrazyOrb(point.getX() - (OBJ_DIAMETER / 2), point.getY() - (OBJ_DIAMETER / 2), OBJ_DIAMETER, canvas, hLine, vLine);
         }
 
-        lastPos = point;
-
-        new CrazyOrb(point.getX() - (OBJ_DIAMETER / 2), point.getY() - (OBJ_DIAMETER / 2), OBJ_DIAMETER, canvas, hLine, vLine);
+        lastPos = point; //save last mouse press
     }
 
     //move the lines along with the mouse, but cannot go out of the window - 6 pixel threshold
@@ -73,9 +77,9 @@ public class CrazyOrbGUI extends WindowController
             }
         }
 
-        lastPos = point;
-        hGrabbed = false;
-        vGrabbed = false;
+        lastPos = point; //save last mouse press
+        hGrabbed = false; //reinitialize grabbed variables
+        vGrabbed = false; //reinitialize grabbed variables
     }
 
     //set up Acme mainframe
@@ -84,14 +88,14 @@ public class CrazyOrbGUI extends WindowController
         new Acme.MainFrame(new CrazyOrbGUI(), args, FRAME_WIDTH, FRAME_HEIGHT);
     } 
 
-     //if size of the window is changed, the lines extend to fit
-     public void paint(java.awt.Graphics g)
-     {
+    //if size of the window is changed, the lines remain proportional
+    public void paint(java.awt.Graphics g)
+    {
         super.paint(g);
  
         hLine.setStart(0, hPos * canvas.getHeight());
         hLine.setEnd(canvas.getWidth(), hPos * canvas.getHeight());
         vLine.setStart(vPos * canvas.getWidth(), 0);
         vLine.setEnd(vPos * canvas.getWidth(), canvas.getHeight());
-     }
+    }
 }
